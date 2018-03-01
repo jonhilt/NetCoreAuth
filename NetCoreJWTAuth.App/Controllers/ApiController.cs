@@ -24,7 +24,17 @@ namespace NetCoreJWTAuth.App.Controllers
         [HttpGet("Test")]
         public IActionResult Test()
         {
-            return Ok("Super secret content, I hope you've got clearance for this...");
+            var userName = User.Identity.Name;
+
+            return Ok($"Super secret content, I hope you've got clearance for this {userName}...");
+        }
+
+        [Authorize(Policy = "TrainedStaffOnly")]
+        [HttpPost("DeleteUser")]
+        public IActionResult DeleteUser(string username)
+        {
+            // go wild, delete the user, do what you have to...
+            return Ok("Deleted");
         }
 
         [AllowAnonymous]
@@ -35,7 +45,8 @@ namespace NetCoreJWTAuth.App.Controllers
             {
                 var claims = new[]
                 {
-                    new Claim(ClaimTypes.Name, request.Username)
+                    new Claim(ClaimTypes.Name, request.Username),
+                    //new Claim("CompletedBasicTraining", "")
                 };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecurityKey"]));

@@ -36,6 +36,12 @@ namespace NetCoreJWTAuth.App
                     };
                 });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("TrainedStaffOnly",
+                    policy => policy.RequireClaim("CompletedBasicTraining"));
+            });
+
             services.AddMvc();
         }
 
