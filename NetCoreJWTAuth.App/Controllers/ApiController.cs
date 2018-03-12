@@ -46,7 +46,10 @@ namespace NetCoreJWTAuth.App.Controllers
                 var claims = new[]
                 {
                     new Claim(ClaimTypes.Name, request.Username),
-                    //new Claim("CompletedBasicTraining", "")
+                    new Claim("CompletedBasicTraining", ""),
+                    new Claim(CustomClaimTypes.EmploymentCommenced,
+                                new DateTime(2017,12,1).ToString(),
+                                ClaimValueTypes.DateTime)
                 };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecurityKey"]));
